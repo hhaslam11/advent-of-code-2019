@@ -1,16 +1,13 @@
 const fs = require('fs');
 
 fs.readFile('./input.txt', 'utf8', (e, val) => {
-  console.log(a(val)[0]);
+  console.log(runInstructions(val)[0]);
 });
 
-const a = val => {
-  let ar = val.split(',');
-
-  ar = ar.map(e => parseInt(e));
+const runInstructions = instructions => {
+  const ar = instructions.split(',').map(e => parseInt(e));
 
   let i = 0;
-
   ar[1] = 12;
   ar[2] = 2;
 
@@ -27,6 +24,7 @@ const a = val => {
       continue;
     }
     
-    return 'something went wrong';
+    console.log('something went wrong');
+    return 0;
   }
 };

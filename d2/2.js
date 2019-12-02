@@ -8,15 +8,12 @@ fs.readFile('./input.txt', 'utf8', (e, val) => {
   }
 });
 
-const a = (val, n, v) => {
-  let ar = val.split(',');
-
-  ar = ar.map(e => parseInt(e));
+const a = (instructions, noun, verb) => {
+  const ar = instructions.split(',').map(e => parseInt(e));
 
   let i = 0;
-
-  ar[1] = n;
-  ar[2] = v;
+  ar[1] = noun;
+  ar[2] = verb;
 
   while (true) {
     if (ar[i] === 99) return ar;
@@ -31,6 +28,7 @@ const a = (val, n, v) => {
       continue;
     }
 
-    return 'something went wrong';
+    console.log('something went wrong');
+    return 0;
   }
 };
