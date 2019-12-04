@@ -13,8 +13,8 @@ const calc = (x) => {
     let s = i.toString();
     let p = '';
     let h = 0;
+
     for (let j = 0; j < s.length; j++) {
-      
       if (p === s[j]) b1 = true;
       if (s[j] < h) b2 = false;
       if (s[j] > h) h = s[j];

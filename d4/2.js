@@ -5,36 +5,41 @@ fs.readFile('./input.txt', 'utf8', (e, val) => {
 });
 
 const calc = (x) => {
+  const [start, end] = x.split('-');
+
   let count = 0;
 
-  let b1 = false;
-  let b2 = true;
+  let boolean1 = false;
+  let boolean2 = true;
 
-  for (let i = 382345; i < 843167; i++) {
+  for (let i = start; i < end; i++) {
+    
+    //i as a string for easier parsing
     let s = i.toString();
-    let p = '';
-    let h = 0;
-    let d = 0;
+    
+    let previous = '';
+    let highestValue = 0;
+    let repeatedNumber = 0;
     
     for (let j = 0; j < s.length; j++) {
             
-      if (s[j] === p) {
-        d++;
+      if (s[j] === previous) {
+        repeatedNumber++;
       } else {
-        if (d === 1) b1 = true;
-        d = 0;
+        if (repeatedNumber === 1) boolean1 = true;
+        repeatedNumber = 0;
       }
 
-      if (s[j] < h) b2 = false;
-      if (s[j] > h) h = s[j];
+      if (s[j] < highestValue) boolean2 = false;
+      if (s[j] > highestValue) highestValue = s[j];
 
-      p = s[j];
+      previous = s[j];
     }
-    if (d === 1) b1 = true;
-    if (b1 && b2) count++;
-    b1 = false;
-    b2 = true;
-    d = 0;
+    if (repeatedNumber === 1) boolean1 = true;
+    if (boolean1 && boolean2) count++;
+    boolean1 = false;
+    boolean2 = true;
+    repeatedNumber = 0;
     
   }
 
