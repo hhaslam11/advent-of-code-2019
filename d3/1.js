@@ -20,7 +20,6 @@ const calc = (x) => {
   for (let i = 0; i < w1.length; i++) {
     let dir = w1[i][0];
     let count = parseInt(w1[i].slice(1));
-    // console.log(cc1x, cc1y);
 
     if (dir === 'U') {
       for (let j = 0; j < parseInt(count); j++) {

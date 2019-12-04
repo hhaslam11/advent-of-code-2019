@@ -96,6 +96,6 @@ const calc = (x) => {
   for (let el of ar) {
     sums.push([Math.abs(el[0]) + Math.abs(el[1]), el[2]]);
   }
-  console.log(sums);
+  
   return sums.sort((a, b) => a[1] - b[1])[0][1];
 };
