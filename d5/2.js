@@ -4,97 +4,101 @@ fs.readFile('./input.txt', 'utf8', (e, val) => {
   console.log(runInstructions(val));
 });
 
+const addLeadingZeros = arr => {
+  const returnArray = arr;
+  while (arr.length < 5) {
+    returnArray.unshift('0');
+  }
+  return returnArray;
+};
+
+const getParams = (ar, mode2, mode1, i) => {
+  let param1, param2;
+
+  if (mode1) {
+    //immediate mode
+    param1 = ar[i + 1];
+  } else {
+    //position
+    param1 = ar[ar[i + 1]];
+  }
+
+  if (mode2) {
+    //immediate mode
+    param2 = ar[i + 2];
+  } else {
+    //position
+    param2 = ar[ar[i + 2]];
+  }
+
+  return [param1, param2];
+};
+
 const runInstructions = instructions => {
   const ar = instructions.split(',').map(e => parseInt(e));
   const input = 5;
   let i = 0;
 
   while (true) {
-    let s = ar[i].toString();
-    s = s.split('');
-    while (s.length < 5) {
-      s.unshift('0');
-    }
+    const s = addLeadingZeros(ar[i].toString().split(''));
     
-    let de = parseInt(s.slice(-2).join(''));
-    let c = parseInt(s[2]);
-    let b = parseInt(s[1]);
-    let a = parseInt(s[0]);
-    let param1 = 0;
-    let param2 = 0;
+    const opcode = parseInt(s.slice(-2).join(''));
+    const mode1  = parseInt(s[2]);
+    const mode2  = parseInt(s[1]);
+    const mode3  = parseInt(s[0]);
+    const [param1, param2] = getParams(ar, mode2, mode1, i);
+
+    if (opcode === 99) return 0;
     
-    if (c) {
-      //immediate mode
-      param1 = ar[i + 1];
-    } else {
-      //position
-      param1 = ar[ar[i + 1]];
-    }
-
-    if (b) {
-      //immediate mode
-      param2 = ar[i + 2];
-    } else {
-      //position
-      param2 = ar[ar[i + 2]];
-    }
-
-    if (de === 99) {
-      return 0;
-    }
-    if (de === 1) {
-      console.log('de:', de);
-      if (a) {
+    if (opcode === 1) {
+      if (mode3) {
         //immediate mode
         ar[i + 3] = param1 + param2;
       } else {
-        //position
+        //position mode
         ar[ar[i + 3]] = param1 + param2;
       }
       i += 4;
       continue;
     }
-    if (de === 2) {
-      console.log('de:', de);
-      if (a) {
+    
+    if (opcode === 2) {
+      if (mode3) {
         //immediate mode
         ar[i + 3] = param1 * param2;
       } else {
-        //position
+        //position mode
         ar[ar[i + 3]] = param1 * param2;
       }
       i += 4;
       continue;
     }
 
-    if (de === 3) {
-      console.log('de:', de);
-      if (c) {
+    if (opcode === 3) {
+      if (mode1) {
         //immediate mode
         ar[i + 1] = input;
       } else {
-        //position
+        //position mode
         ar[ar[i + 1]] = input;
       }
       i += 2;
       continue;
     }
 
-    if (de === 4) {
-      console.log('de:', de);
-      if (c) {
+    if (opcode === 4) {
+      if (mode1) {
         //immediate mode
         if (ar[i + 1]) return ar[i + 1];
       } else {
-        //position
+        //position mode
         if (ar[ar[i + 1]]) return ar[ar[i + 1]];
       }
       i += 2;
       continue;
     }
 
-    if (de === 5) {
-      console.log('de:', de);
+    if (opcode === 5) {
       if (param1) {
         i = param2;
       } else {
@@ -103,8 +107,7 @@ const runInstructions = instructions => {
       continue;
     }
 
-    if (de === 6) {
-      console.log('de:', de);
+    if (opcode === 6) {
       if (!param1) {
         i = param2;
       } else {
@@ -113,40 +116,38 @@ const runInstructions = instructions => {
       continue;
     }
 
-    if (de === 7) {
-      console.log('de:', de);
+    if (opcode === 7) {
       let store = 0;
       if (param1 < param2) {
         store = 1;
       }
-      if (a) {
+      if (mode3) {
         //immediate mode
         ar[i + 3] = store;
       } else {
-        //position
+        //position mode
         ar[ar[i + 3]] = store;
       }
       i += 4;
       continue;
     }
     
-    if (de === 8) {
-      console.log('de:', de);
+    if (opcode === 8) {
       let store = 0;
       if (param1 === param2) {
         store = 1;
       }
-      if (a) {
+      if (mode3) {
         //immediate mode
         ar[i + 3] = store;
       } else {
-        //position
+        //position mode
         ar[ar[i + 3]] = store;
       }
       i += 4;
       continue;
     }
-    console.log('something went wrong');
-    return 'ahh';
+
+    return 'Something went wrong';
   }
 };
