@@ -180,13 +180,12 @@ class Machine {
         if (mode1) {
           let temp = this.ar[this.i + 1];
           this.i += 2;
-          if (temp) return temp;
+          return temp;
         } else {
           let temp = this.ar[this.ar[this.i + 1]];
           this.i += 2;
-          if (temp) return temp;
+          return temp;
         }
-        continue;
       }
 
       if (opcode === 5) {
@@ -245,7 +244,7 @@ class Machine {
   }
 }
 
-
+// Taken from stackoverflow
 function combo(c) {
   var r = [],
     len = c.length;
